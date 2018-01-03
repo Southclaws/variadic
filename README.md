@@ -11,11 +11,10 @@ Have you ever wrote a function like this before?
 ```pawn
 printex(str[], ...)
 {
-    new
-        output[128];
+    new output[128];
 
     format(output, sizeof(output), str, ...);
-
+    
     return print(output);
 }
 ```
@@ -32,12 +31,12 @@ An equivalent of the function in the introduction is possible using this include
 #include <a_samp>
 #include <variadic>
 
-var MyPrint(str[])
+var printex(str[])
 {
-    new
-        output[128];
+    new output[128];
 
     format(output, sizeof(output), str, @variadic[1]);
+    
     return print(output);
 }
 ```
