@@ -1,15 +1,17 @@
 # Variadic functions in PAWN.
 
 ## Introduction
+
 Variadic functions are a feature in most scripting languages, where a scripter can specify an indefinite amount of arguments towards a function. However, in PAWN, this isn't possible without playing around with the assembly (later versions of PAWN have dealt with this), but this include introduces a brand new way of handling them!
 
 ## More information
+
 Have you ever wrote a function like this before?
 
 ```pawn
 printex(str[], ...)
 {
-    new 
+    new
         output[128];
 
     format(output, sizeof(output), str, ...);
@@ -23,6 +25,7 @@ And then you figured out that you can't do it this way! The reason being is beca
 However, this include allows scripters to dynamically push arguments and format them. The pushed arguments are stored within an array by address, so they can be accessed later with the corresponding functions.
 
 ## Example
+
 An equivalent of the function in the introduction is possible using this include:
 
 ```pawn
@@ -31,7 +34,7 @@ An equivalent of the function in the introduction is possible using this include
 
 var MyPrint(str[])
 {
-    new 
+    new
         output[128];
 
     format(output, sizeof(output), str, @variadic[1]);
@@ -44,6 +47,7 @@ You can also use `@variadic[]` with `CallLocalFunction` and such to call local f
 Alternatively, you can also use `stock`, but make sure you place `...` after the parameters.
 
 ## String arguments
+
 You can retrieve string arguments easily.
 
 **Getting:**
@@ -71,6 +75,7 @@ stock MyFunction(a[], b[])
 ```
 
 ## Functions
+
 ```pawn
 // Get the address of a function argument.
 native GetVariadicAddress(argument);
@@ -95,6 +100,7 @@ native PopArguments();
 ```
 
 ## Obsolete functions
+
 These functions are obsolete since version 2. However, I am simply keeping them for another feature I'm adding to this include, so the best thing to do is ignore them.
 
 ```pawn
@@ -103,7 +109,7 @@ native PushArguments(start, end);
 
 // "Format" the variadic arguments.
 native VariadicFormat(output[], len, const str[]);
-  	
+
 // Call a local function with the variadic arguments.
 native CallLocalVariadic(function[], const specifiers[]);
 
@@ -112,3 +118,17 @@ native CallRemoteVariadic(function[], const specifiers[]);
 ```
 
 Alternatively, you can use `@variadic[]` instead of these functions - but it's up to you.
+
+## Installation
+
+Simply install to your project:
+
+```bash
+sampctl package install kristoisberg/variadic
+```
+
+Include in your code and begin using the library:
+
+```pawn
+#include <variadic>
+```

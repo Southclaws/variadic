@@ -1,3 +1,17 @@
+// built-in include guard removal
+// just in case the user has a local dependency with the same file name
+#if defined _inc_variadic
+	#undef _inc_variadic
+#endif
+// custom include-guard to ensure we don't duplicate
+#if defined _variadic_included
+	#endinput
+#endif
+#define _variadic_included
+
+#include <a_samp>
+
+
 // Variadic functions in PAWN.
 
 /*
@@ -15,7 +29,7 @@
 	native UnpackArgument(address);
 
 	native DeleteArgument(address);
- 	native PopArguments();
+	native PopArguments();
 */
 
 #define var%0(%1) \
@@ -41,17 +55,17 @@ native org_CallRemoteFunction(func[], specifiers[], {Float,_}:...) = CallRemoteF
 forward _variadic_fix_();
 public _variadic_fix_()
 {
- 	strcat("", "");
- 	strlen("");
- 	strdel("", 0, 1);
- 	strunpack("", "");
-    strpack("", "");
-    ispacked("");
+	strcat("", "");
+	strlen("");
+	strdel("", 0, 1);
+	strunpack("", "");
+	strpack("", "");
+	ispacked("");
 	memcpy("", "", 0, 0, 0);
 	CallLocalFunction("", "");
 	CallRemoteFunction("", "");
 
-    format("", 1, "");
+	format("", 1, "");
 	org_format("", 1, "");
 
 	org_CallLocalFunction("", "");
@@ -67,7 +81,7 @@ stock GetVariadicAddress(argument)
 	#emit ADD
 
 	#emit ADD.C 12
-    #emit LOAD.I
+	#emit LOAD.I
 
 	#emit RETN
 
@@ -92,8 +106,8 @@ stock GetVariadicString(address, dest[] = "", size = sizeof(dest))
 
 	if (numargs() > 1)
 	{
-	    dest[0] = '\0';
-	    strcat(dest, string, size);
+		dest[0] = '\0';
+		strcat(dest, string, size);
 	}
 	return string;
 }
@@ -174,17 +188,17 @@ stock VariadicFormat(output[], len, const str[], bool:pack = false)
 
 	for (i = sizeof(g_PushedAddress); --i >= 0; )
 	{
-	    if (g_PushedAddress[i] != -1)
-	    {
-	        #emit CONST.pri g_PushedAddress
-	        #emit LOAD.S.alt i
-	        #emit SHL.C.alt 2
-	        #emit ADD
-	        #emit LOAD.I
+		if (g_PushedAddress[i] != -1)
+		{
+			#emit CONST.pri g_PushedAddress
+			#emit LOAD.S.alt i
+			#emit SHL.C.alt 2
+			#emit ADD
+			#emit LOAD.I
 			#emit PUSH.pri
 
-	        args += 4;
-	    }
+			args += 4;
+		}
 	}
 	#emit PUSH.S str
 	#emit PUSH.S len
@@ -197,9 +211,9 @@ stock VariadicFormat(output[], len, const str[], bool:pack = false)
 
 	for (i = 0; i < sizeof(g_PushedAddress); i ++)
 	{
-	    if (g_PushedAddress[i] != -1)
-	    {
-	        #emit CONST.pri g_PushedAddress
+		if (g_PushedAddress[i] != -1)
+		{
+			#emit CONST.pri g_PushedAddress
 			#emit LOAD.S.alt i
 			#emit SHL.c.alt 2
 			#emit ADD
@@ -207,11 +221,11 @@ stock VariadicFormat(output[], len, const str[], bool:pack = false)
 			#emit CONST.pri 1
 			#emit NEG
 			#emit STOR.I
-	        #emit STACK 4
-	    }
+			#emit STACK 4
+		}
 	}
 	if (pack || output[0] > 255) {
-	    strpack(output, string, len);
+		strpack(output, string, len);
 	}
 	else strcat((output[0] = '\0', output), string, len);
 	return 1;
@@ -223,17 +237,17 @@ stock CallLocalVariadic(function[], const specifiers[])
 
 	for (i = sizeof(g_PushedAddress); --i >= 0; )
 	{
-	    if (g_PushedAddress[i] != -1)
-	    {
-	        #emit CONST.pri g_PushedAddress
-	        #emit LOAD.S.alt i
-	        #emit SHL.C.alt 2
-	        #emit ADD
-	        #emit LOAD.I
+		if (g_PushedAddress[i] != -1)
+		{
+			#emit CONST.pri g_PushedAddress
+			#emit LOAD.S.alt i
+			#emit SHL.C.alt 2
+			#emit ADD
+			#emit LOAD.I
 			#emit PUSH.pri
 
-	        args += 4;
-	    }
+			args += 4;
+		}
 	}
 	#emit PUSH.S specifiers
 	#emit PUSH.S function
@@ -245,9 +259,9 @@ stock CallLocalVariadic(function[], const specifiers[])
 
 	for (i = 0; i < sizeof(g_PushedAddress); i ++)
 	{
-	    if (g_PushedAddress[i] != -1)
-	    {
-	        #emit CONST.pri g_PushedAddress
+		if (g_PushedAddress[i] != -1)
+		{
+			#emit CONST.pri g_PushedAddress
 			#emit LOAD.S.alt i
 			#emit SHL.c.alt 2
 			#emit ADD
@@ -255,8 +269,8 @@ stock CallLocalVariadic(function[], const specifiers[])
 			#emit CONST.pri 1
 			#emit NEG
 			#emit STOR.I
-	        #emit STACK 4
-	    }
+			#emit STACK 4
+		}
 	}
 	return 1;
 }
@@ -267,17 +281,17 @@ stock CallRemoteVariadic(function[], const specifiers[])
 
 	for (i = sizeof(g_PushedAddress); --i >= 0; )
 	{
-	    if (g_PushedAddress[i] != -1)
-	    {
-	        #emit CONST.pri g_PushedAddress
-	        #emit LOAD.S.alt i
-	        #emit SHL.C.alt 2
-	        #emit ADD
-	        #emit LOAD.I
+		if (g_PushedAddress[i] != -1)
+		{
+			#emit CONST.pri g_PushedAddress
+			#emit LOAD.S.alt i
+			#emit SHL.C.alt 2
+			#emit ADD
+			#emit LOAD.I
 			#emit PUSH.pri
 
-	        args += 4;
-	    }
+			args += 4;
+		}
 	}
 	#emit PUSH.S specifiers
 	#emit PUSH.S function
@@ -289,9 +303,9 @@ stock CallRemoteVariadic(function[], const specifiers[])
 
 	for (i = 0; i < sizeof(g_PushedAddress); i ++)
 	{
-	    if (g_PushedAddress[i] != -1)
-	    {
-	        #emit CONST.pri g_PushedAddress
+		if (g_PushedAddress[i] != -1)
+		{
+			#emit CONST.pri g_PushedAddress
 			#emit LOAD.S.alt i
 			#emit SHL.c.alt 2
 			#emit ADD
@@ -299,8 +313,8 @@ stock CallRemoteVariadic(function[], const specifiers[])
 			#emit CONST.pri 1
 			#emit NEG
 			#emit STOR.I
-	        #emit STACK 4
-	    }
+			#emit STACK 4
+		}
 	}
 	return 1;
 }
@@ -332,7 +346,7 @@ stock DeleteArgument(address)
 stock PopArguments()
 {
 	for (new i = 0; i < sizeof(g_PushedAddress); i ++) {
-	    if (g_PushedAddress[i] != -1) g_PushedAddress[i] = -1;
+		if (g_PushedAddress[i] != -1) g_PushedAddress[i] = -1;
 	}
 	return 1;
 }
@@ -383,67 +397,67 @@ stock var_Format(output[], len, const str[], {Float,_}:...)
 	{
 		start = strval(string[16]);
 
-        #emit LOAD.S.pri 0
-	    #emit ADD.C 8
+		#emit LOAD.S.pri 0
+		#emit ADD.C 8
 
-	    #emit LOAD.I
+		#emit LOAD.I
 		#emit STOR.S.pri args
 
-        argument = (args / 4);
+		argument = (args / 4);
 
 		while (--argument >= start)
 		{
-  			#emit LOAD.S.pri argument
-		    #emit SMUL.C 4
+ 			#emit LOAD.S.pri argument
+			#emit SMUL.C 4
 
-		    #emit LOAD.S.alt 0
-		    #emit ADD
+			#emit LOAD.S.alt 0
+			#emit ADD
 
-		    #emit ADD.C 12
-		    #emit LOAD.I
-		    #emit PUSH.pri
+			#emit ADD.C 12
+			#emit LOAD.I
+			#emit PUSH.pri
 		}
 		#emit LOAD.S.pri args
 		#emit ADD.C 12
 		#emit STOR.S.pri args
 
 		#emit PUSH.S str
-	    #emit PUSH.S len
-	    #emit PUSH.S output
+		#emit PUSH.S len
+		#emit PUSH.S output
 
-	    #emit PUSH.S args
-	    #emit SYSREQ.C org_format
+		#emit PUSH.S args
+		#emit SYSREQ.C org_format
 
-	    #emit STACK 16
+		#emit STACK 16
 
 		for (argument = (args / 4) - 4; argument >= start; argument --)
 		{
-		    #emit STACK 4
+			#emit STACK 4
 		}
 	}
 	else
 	{
-	    #emit ADDR.PRI str
-	    #emit STOR.S.pri start
+		#emit ADDR.PRI str
+		#emit STOR.S.pri start
 
-	    for (end = start + (args - 12); end > start; end -= 4)
-	    {
-	        #emit LOAD.S.pri end
-	        #emit LOAD.I
-	        #emit PUSH.pri
-	    }
-	    #emit PUSH.S str
-	    #emit PUSH.S len
-	    #emit PUSH.S output
+		for (end = start + (args - 12); end > start; end -= 4)
+		{
+			#emit LOAD.S.pri end
+			#emit LOAD.I
+			#emit PUSH.pri
+		}
+		#emit PUSH.S str
+		#emit PUSH.S len
+		#emit PUSH.S output
 
-	    #emit PUSH.S args
-	    #emit SYSREQ.C org_format
+		#emit PUSH.S args
+		#emit SYSREQ.C org_format
 
-	    #emit STACK 16
+		#emit STACK 16
 
-	    for (end = start + (args - 12); end > start; end -= 4)
-	    {
-	        #emit STACK 4
+		for (end = start + (args - 12); end > start; end -= 4)
+		{
+			#emit STACK 4
 		}
 	}
 	return 1;
@@ -463,65 +477,65 @@ stock var_CallLocalFunction(func[], const specifiers[], {Float,_}:...)
 	{
 		start = strval(string[16]);
 
-        #emit LOAD.S.pri 0
-	    #emit ADD.C 8
+		#emit LOAD.S.pri 0
+		#emit ADD.C 8
 
-	    #emit LOAD.I
+		#emit LOAD.I
 		#emit STOR.S.pri args
 
 		argument = (args / 4);
 
 		while (--argument >= start)
 		{
-		    #emit LOAD.S.pri argument
-		    #emit SMUL.C 4
+			#emit LOAD.S.pri argument
+			#emit SMUL.C 4
 
-		    #emit LOAD.S.alt 0
-		    #emit ADD
+			#emit LOAD.S.alt 0
+			#emit ADD
 
-		    #emit ADD.C 12
-		    #emit LOAD.I
-		    #emit PUSH.pri
+			#emit ADD.C 12
+			#emit LOAD.I
+			#emit PUSH.pri
 		}
 		#emit LOAD.S.pri args
 		#emit ADD.C 8
 		#emit STOR.S.pri args
 
 		#emit PUSH.S specifiers
-	    #emit PUSH.S func
+		#emit PUSH.S func
 
-	    #emit PUSH.S args
-	    #emit SYSREQ.C org_CallLocalFunction
+		#emit PUSH.S args
+		#emit SYSREQ.C org_CallLocalFunction
 
-	    #emit STACK 12
+		#emit STACK 12
 
 		for (argument = (args / 4) - 3; argument >= start; argument --)
 		{
-		    #emit STACK 4
+			#emit STACK 4
 		}
 	}
 	else
 	{
-	    #emit ADDR.PRI specifiers
-	    #emit STOR.S.pri start
+		#emit ADDR.PRI specifiers
+		#emit STOR.S.pri start
 
-	    for (end = start + (args - 8); end > start; end -= 4)
-	    {
-	        #emit LOAD.S.pri end
-	        #emit LOAD.I
-	        #emit PUSH.pri
-	    }
-	    #emit PUSH.S specifiers
-	    #emit PUSH.S func
+		for (end = start + (args - 8); end > start; end -= 4)
+		{
+			#emit LOAD.S.pri end
+			#emit LOAD.I
+			#emit PUSH.pri
+		}
+		#emit PUSH.S specifiers
+		#emit PUSH.S func
 
-	    #emit PUSH.S args
-	    #emit SYSREQ.C org_CallLocalFunction
+		#emit PUSH.S args
+		#emit SYSREQ.C org_CallLocalFunction
 
-	    #emit STACK 12
+		#emit STACK 12
 
-	    for (end = start + (args - 8); end > start; end -= 4)
-	    {
-	        #emit STACK 4
+		for (end = start + (args - 8); end > start; end -= 4)
+		{
+			#emit STACK 4
 		}
 	}
 	return 1;
@@ -541,65 +555,65 @@ stock var_CallRemoteFunction(func[], const specifiers[], {Float,_}:...)
 	{
 		start = strval(string[16]);
 
-        #emit LOAD.S.pri 0
-	    #emit ADD.C 8
+		#emit LOAD.S.pri 0
+		#emit ADD.C 8
 
-	    #emit LOAD.I
+		#emit LOAD.I
 		#emit STOR.S.pri args
 
 		argument = (args / 4);
 
 		while (--argument >= start)
 		{
-		    #emit LOAD.S.pri argument
-		    #emit SMUL.C 4
+			#emit LOAD.S.pri argument
+			#emit SMUL.C 4
 
-		    #emit LOAD.S.alt 0
-		    #emit ADD
+			#emit LOAD.S.alt 0
+			#emit ADD
 
-		    #emit ADD.C 12
-		    #emit LOAD.I
-		    #emit PUSH.pri
+			#emit ADD.C 12
+			#emit LOAD.I
+			#emit PUSH.pri
 		}
 		#emit LOAD.S.pri args
 		#emit ADD.C 8
 		#emit STOR.S.pri args
 
 		#emit PUSH.S specifiers
-	    #emit PUSH.S func
+		#emit PUSH.S func
 
-	    #emit PUSH.S args
-	    #emit SYSREQ.C org_CallRemoteFunction
+		#emit PUSH.S args
+		#emit SYSREQ.C org_CallRemoteFunction
 
-	    #emit STACK 12
+		#emit STACK 12
 
 		for (argument = (args / 4) - 3; argument >= start; argument --)
 		{
-		    #emit STACK 4
+			#emit STACK 4
 		}
 	}
 	else
 	{
-	    #emit ADDR.PRI specifiers
-	    #emit STOR.S.pri start
+		#emit ADDR.PRI specifiers
+		#emit STOR.S.pri start
 
-	    for (end = start + (args - 8); end > start; end -= 4)
-	    {
-	        #emit LOAD.S.pri end
-	        #emit LOAD.I
-	        #emit PUSH.pri
-	    }
-	    #emit PUSH.S specifiers
-	    #emit PUSH.S func
+		for (end = start + (args - 8); end > start; end -= 4)
+		{
+			#emit LOAD.S.pri end
+			#emit LOAD.I
+			#emit PUSH.pri
+		}
+		#emit PUSH.S specifiers
+		#emit PUSH.S func
 
-	    #emit PUSH.S args
-	    #emit SYSREQ.C org_CallRemoteFunction
+		#emit PUSH.S args
+		#emit SYSREQ.C org_CallRemoteFunction
 
-	    #emit STACK 12
+		#emit STACK 12
 
-	    for (end = start + (args - 8); end > start; end -= 4)
-	    {
-	        #emit STACK 4
+		for (end = start + (args - 8); end > start; end -= 4)
+		{
+			#emit STACK 4
 		}
 	}
 	return 1;
